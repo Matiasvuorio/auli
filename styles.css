@@ -1,5 +1,6 @@
 :root{
   /* Tumma oletus – nyt vähän sinivihreää sävyä taustaan */
+  color-scheme: dark;
   --bg-start:#050816;
   --bg-end:#020617;
   --glow-1:rgba(129,140,248,.35);  /* indigo / sinertävä */
@@ -39,6 +40,7 @@
 
 /* LIGHT MODE manuaalisesti (override data-atribuutilla) */
 :root[data-theme="light"]{
+  color-scheme: light;
   --bg-start:#f7f8fc;
   --bg-end:#e6eef9;
   --card:#ffffffee;
