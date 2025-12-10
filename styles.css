@@ -1,0 +1,524 @@
+:root{
+  /* Tumma oletus – nyt vähän sinivihreää sävyä taustaan */
+  --bg-start:#050816;
+  --bg-end:#020617;
+  --glow-1:rgba(129,140,248,.35);  /* indigo / sinertävä */
+  --glow-2:rgba(45,212,191,.25);   /* turkoosi */
+
+  --card:rgba(15,23,42,.92);
+  --text:#ecf1f8;
+  --muted:#aab3c4;
+
+  --brand:#4dd2c6;
+  --brand-2:#8aa4ff;
+
+  --radius:20px;
+  --shadow:0 20px 70px rgba(0,0,0,.6);
+  --max:1160px;
+
+  --portrait-width: 300px;
+  --portrait-aspect: 3 / 4;
+
+  /* Typografia + spacing */
+  --step--1: clamp(.9rem, .86rem + .2vw, 1rem);
+  --step-0:  clamp(1rem, .95rem + .4vw, 1.125rem);
+  --step-1:  clamp(1.125rem, 1rem + .8vw, 1.375rem);
+  --step-2:  clamp(1.25rem, 1.1rem + 1.3vw, 1.75rem);
+  --step-3:  clamp(1.5rem, 1.2rem + 2vw, 2.2rem);
+
+  --space-1: .5rem;
+  --space-2: .75rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+
+  /* Header-mitat */
+  --header-h: 64px;
+  --header-pad-x: 20px;
+}
+
+/* LIGHT MODE manuaalisesti (override data-atribuutilla) */
+:root[data-theme="light"]{
+  --bg-start:#f7f8fc;
+  --bg-end:#e6eef9;
+  --card:#ffffffee;
+  --text:#0f1720;
+  --muted:#4b5563;
+  --shadow:0 12px 32px rgba(15,23,42,.12);
+}
+
+/* Taustaglow */
+body::before,
+body::after{
+  content:"";
+  position:fixed; inset:0; pointer-events:none; z-index:-1;
+}
+body::before{
+  background:
+    radial-gradient(1100px 780px at 82% 6%, var(--glow-1), transparent 60%),
+    radial-gradient(900px 650px at 8% 85%, var(--glow-2), transparent 60%);
+}
+body::after{
+  background:
+    radial-gradient(1200px 900px at 10% -10%, rgba(15,23,42,.95) 0%, transparent 55%);
+}
+:root[data-theme="light"] body{
+  background: linear-gradient(180deg, var(--bg-start), var(--bg-end));
+}
+
+/* Light: hillitympi tausta */
+:root[data-theme="light"] body::before{
+  background:
+    radial-gradient(900px 650px at 80% 0%, rgba(138,164,255,.16), transparent 75%),
+    radial-gradient(900px 650px at 20% 100%, rgba(77,210,198,.12), transparent 75%);
+}
+
+:root[data-theme="light"] body::after{
+  background:none;
+}
+
+/* Perus */
+*{box-sizing:border-box}
+html,body{height:100%}
+html{ scroll-behavior: smooth; }
+body{
+  margin:0;
+  font-family:Poppins, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color:var(--text);
+  line-height:1.7;
+  background:radial-gradient(circle at top, rgba(15,23,42,.9), transparent 60%), linear-gradient(180deg, var(--bg-start), var(--bg-end));
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+a{color:inherit; text-decoration:none}
+img{max-width:100%; display:block}
+
+/* Header (fixed) */
+.site-header{
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  backdrop-filter:saturate(140%) blur(10px);
+  background:linear-gradient(
+    135deg,
+    rgba(15,23,42,.96),
+    rgba(17,24,39,.90),
+    rgba(15,23,42,.96)
+  );
+  border-bottom:1px solid rgba(148,163,184,.45);
+  height: var(--header-h);
+  display:flex; align-items:center;
+  transition:box-shadow .2s ease, background .2s ease, border-color .2s ease;
+}
+body.scrolled .site-header{
+  box-shadow:0 18px 60px rgba(0,0,0,.75);
+}
+:root[data-theme="light"] .site-header{
+  background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.86));
+  border-bottom-color: #d1d5db;
+}
+.header-inner{
+  display:flex; align-items:center; gap:12px; justify-content:space-between;
+  padding-inline: var(--header-pad-x);
+}
+.header-spacer{ height: var(--header-h); }
+
+.container{max-width:var(--max); margin-inline:auto; padding:28px 20px}
+.grid{display:grid; gap:22px}
+
+.container{max-width:var(--max); margin-inline:auto; padding:28px 20px}
+
+/* Väli työkokemuksen ja footerin välillä pienemmäksi */
+main.container{
+  padding-bottom: 16px;  /* aiemmin 28px */
+}
+
+footer.container.foot{
+  padding-top: 10px;     /* aiemmin 28px */
+  padding-bottom: 20px;  /* hieman tiiviimpi */
+}
+
+
+/* Kortit */
+.card{
+  position:relative;
+  background:
+    radial-gradient(circle at 0 0, rgba(77,210,198,.13), transparent 55%),
+    radial-gradient(circle at 100% 100%, rgba(138,164,255,.12), transparent 55%),
+    var(--card);
+  border-radius:var(--radius);
+  border:1px solid rgba(148,163,184,.45);
+  box-shadow:var(--shadow);
+  backdrop-filter:saturate(130%) blur(14px);
+}
+.pad{ padding: var(--space-4); }
+.muted{color:var(--muted)}
+.small{ font-size: var(--step--1); color: var(--muted); }
+
+/* Typografia */
+h1{
+  font-size: var(--step-3);
+  line-height:1.15;
+  margin:0;
+  background:linear-gradient(120deg, var(--brand-2), var(--brand));
+  -webkit-background-clip:text;
+  color:transparent;
+}
+h2{
+  font-size: var(--step-2);
+  margin:0 0 var(--space-3);
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+h2::before{
+  content:"";
+  width:9px;
+  height:9px;
+  border-radius:999px;
+  background:radial-gradient(circle, var(--brand-2), var(--brand));
+  box-shadow:0 0 0 4px rgba(15,23,42,.8);
+}
+h2::after{
+  content:"";
+  flex:1 1 auto;
+  height:2px;
+  border-radius:999px;
+  background:linear-gradient(90deg, var(--brand), var(--brand-2));
+  opacity:.9;
+}
+h3{ font-size: var(--step-1); margin:0 0 var(--space-1) }
+p, li{ font-size: var(--step-0); }
+section{ scroll-margin-top: calc(var(--header-h) + 20px); }
+
+/* Brand + nav */
+.brand{display:flex; align-items:center; gap:10px}
+.name{font-size:1.1rem}
+.tag{
+  display:inline-block;
+  background:rgba(138,164,255,.20);
+  border:1px solid rgba(138,164,255,.55);
+  color:#e5e9ff;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:.85rem;
+}
+:root[data-theme="light"] .tag{
+  background: rgba(138,164,255,.16);
+  border-color: rgba(138,164,255,.4);
+  color: #394264;
+}
+
+/* Desktop-nav */
+.nav a{
+  padding:8px 12px;
+  border-radius:999px;
+  transition: background .16s ease, color .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+.nav a:hover{
+  background:rgba(148,163,184,.22);
+}
+.nav a.active{
+  background:rgba(77,210,198,.20);
+  border-bottom:0;
+  box-shadow:0 0 0 1px rgba(77,210,198,.8);
+}
+:root[data-theme="light"] .nav a:hover{
+  background: rgba(148,163,184,.18);
+}
+:root[data-theme="light"] .nav a.active{
+  background:rgba(77,210,198,.16);
+  box-shadow:0 0 0 1px rgba(77,210,198,.55);
+}
+
+/* Teeman vaihtonappi */
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:9px 12px; border-radius:12px; font-weight:600;
+  color:var(--text); background:rgba(15,23,42,.5);
+  border:1px solid rgba(148,163,184,.6);
+}
+.btn:hover{
+  border-color:rgba(191,219,254,.9);
+  box-shadow:0 0 0 3px rgba(129,140,248,.26);
+}
+.btn.secondary{
+  background:rgba(15,23,42,.6);
+}
+.btn.icon{
+  padding:8px 10px; border-radius:999px;
+  background:rgba(15,23,42,.7);
+}
+:root[data-theme="light"] .btn{
+  background:#f9fafb;
+  border-color:#d1d5db;
+}
+:root[data-theme="light"] .btn:hover{
+  border-color:#cbd5e1;
+  box-shadow:0 0 0 3px rgba(138,164,255,.24);
+}
+
+/* Linkit tekstissä (ei napit/nav) */
+a:not(.btn):not(.nav a){
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--brand), var(--brand-2));
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+a:not(.btn):not(.nav a):hover{
+  color: var(--brand);
+  text-decoration-thickness: 2px;
+}
+
+/* Fokus-tilat */
+:where(a, button, .btn, .pill, .item):focus-visible{
+  outline: 2px solid color-mix(in oklab, var(--brand), white 15%);
+  outline-offset: 3px;
+  border-radius: 12px;
+}
+
+/* Hero layout */
+.hero-intro{
+  display:grid;
+  grid-template-columns: var(--portrait-width) 1fr;
+  gap:var(--space-4);
+  align-items:start;
+  position:relative;
+  overflow:hidden;
+}
+.hero-intro::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  pointer-events:none;
+  background:
+    radial-gradient(800px 500px at 90% 0%, rgba(138,164,255,.26), transparent 60%),
+    radial-gradient(700px 450px at 0% 100%, rgba(77,210,198,.22), transparent 60%);
+  opacity:.9;
+  mix-blend-mode:screen;
+}
+.hero-intro > *{
+  position:relative;
+}
+
+.portrait-wrap{
+  position:relative; border-radius:18px; padding:10px;
+  background:linear-gradient(180deg, rgba(138,164,255,.32), rgba(77,210,198,.24));
+  border:1px solid rgba(191,219,254,.75);
+}
+:root[data-theme="light"] .portrait-wrap{
+  background: linear-gradient(180deg, rgba(138,164,255,.24), rgba(77,210,198,.18));
+  border-color: #d1d5db;
+}
+.portrait{
+  width:100%;
+  aspect-ratio: var(--portrait-aspect);
+  object-fit:cover; object-position:center 30%;
+  border-radius:14px;
+  border:3px solid rgba(255,255,255,.9);
+  box-shadow:0 24px 60px rgba(0,0,0,.7);
+}
+:root[data-theme="light"] .portrait{
+  border-color:#ffffff;
+  box-shadow:0 18px 40px rgba(15,23,42,.28);
+}
+.intro-text .subtitle{
+  color:var(--muted);
+  margin-top:6px;
+}
+
+/* Pillerit esittelyn alla */
+.pills{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+}
+.pill{
+  padding:4px 11px;
+  border-radius:999px;
+  font-size:var(--step--1);
+  background:rgba(77,210,198,.16);
+  border:1px solid rgba(77,210,198,.55);
+  color:#e6fffb;
+}
+:root[data-theme="light"] .pill{
+  background:rgba(77,210,198,.10);
+  border-color:rgba(77,210,198,.55);
+  color:#065f46;
+}
+
+/* Erityisalat (+ikonit) */
+.features{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:var(--space-3);
+}
+.features .item{
+  display:flex; gap:.75rem; align-items:flex-start;
+  background:linear-gradient(180deg, rgba(15,23,42,.9), rgba(15,23,42,.86));
+  border:1px solid rgba(148,163,184,.55);
+  border-radius:16px; padding:16px;
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+}
+.features .item:hover{
+  transform:translateY(-2px);
+  box-shadow:0 18px 45px rgba(0,0,0,.7);
+  border-color:rgba(191,219,254,.85);
+  background:linear-gradient(180deg, rgba(30,64,175,.95), rgba(17,94,89,.95));
+}
+:root[data-theme="light"] .features .item{
+  background: linear-gradient(180deg, #ffffff, #f3f4ff);
+  border-color:#d1d5db;
+}
+:root[data-theme="light"] .features .item:hover{
+  box-shadow: 0 12px 28px rgba(15,23,42,.18);
+  border-color:#c4cce0;
+}
+.features .item .ico{
+  display:inline-grid; place-items:center;
+  width:32px; height:32px; border-radius:9px;
+  background:linear-gradient(135deg, var(--brand), var(--brand-2));
+  color:#0f1720;
+}
+
+/* Two-column + sitaatti */
+.split{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:var(--space-4);
+}
+.checklist{margin:12px 0 0 18px}
+.checklist li{margin:6px 0}
+.quote{
+  background:conic-gradient(from 140deg at 60% -10%, rgba(138,164,255,.26), rgba(77,210,198,.16) 30%, transparent 60%);
+  border:1px solid rgba(148,163,184,.6);
+  border-radius:16px; padding:18px;
+  display:flex; flex-direction:column; gap:8px
+}
+:root[data-theme="light"] .quote{
+  background: conic-gradient(from 140deg at 60% -10%, rgba(138,164,255,.18), rgba(77,210,198,.12) 30%, transparent 60%);
+  border-color:#d1d5db;
+}
+
+/* Aikajana */
+.timeline{display:grid; gap:14px}
+.entry{display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start}
+.dot{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:linear-gradient(135deg, var(--brand), var(--brand-2));
+  margin-top:9px;
+  box-shadow:0 0 0 4px rgba(15,23,42,.9);
+}
+.content{
+  border-left-width:2px;
+  border-left-style:solid;
+  border-image:linear-gradient(
+    180deg,
+    rgba(138,164,255,.95),
+    rgba(77,210,198,.95)
+  ) 1;
+  padding-left:12px;
+}
+:root[data-theme="light"] .content{
+  border-left-color:#d1d5db;
+  border-image:none;
+}
+
+/* Yhteystiedot ja footer */
+.contacts{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.foot{
+  color:var(--muted);
+  font-size:.95rem;
+  text-align:center;
+}
+
+/* Printti */
+@media print{
+  @page{ margin: 16mm; }
+  body{background:white !important; color:#111 !important}
+  .site-header, .nav, .quote{ display:none !important; }
+  .card{box-shadow:none !important; border:1px solid #ddd !important; background:white !important; backdrop-filter:none !important}
+  a[href^="mailto:"], a[href^="tel:"]{ text-decoration: none; color:#000 }
+}
+
+/* Isot näytöt: väljyyttä */
+@media (min-width: 1200px){
+  .grid{ gap: 28px; }
+  .hero-intro{ gap: 28px; }
+}
+
+/* Responsiivisuus */
+@media (max-width: 980px){
+  .split{grid-template-columns:1fr}
+  .features{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width: 640px){
+  .hero-intro{grid-template-columns: 1fr}
+  .portrait-wrap{max-width: 240px}
+  :root{ --portrait-width: 100% }
+  .features{grid-template-columns:1fr}
+}
+
+/* Scroll reveal + stagger */
+@media (prefers-reduced-motion: no-preference){
+  .reveal{
+    opacity:0;
+    transform: translateY(16px) scale(.98);
+    transition: opacity .6s ease, transform .6s cubic-bezier(.2,.6,.2,1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible{ opacity:1; transform: none; }
+
+  .stagger > *{
+    opacity:0; transform: translateY(12px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .stagger.is-visible > *{ opacity:1; transform:none; }
+  .stagger.is-visible > *:nth-child(1){ transition-delay: .06s }
+  .stagger.is-visible > *:nth-child(2){ transition-delay: .12s }
+  .stagger.is-visible > *:nth-child(3){ transition-delay: .18s }
+  .stagger.is-visible > *:nth-child(4){ transition-delay: .24s }
+  .stagger.is-visible > *:nth-child(5){ transition-delay: .30s }
+  .stagger.is-visible > *:nth-child(6){ transition-delay: .36s }
+}
+
+/* Mobiili-header: pelkkä nimi + teeman vaihto, nav piiloon */
+@media (max-width: 720px){
+  :root{
+    --header-h: 56px;
+  }
+
+  .site-header{
+    height: var(--header-h);
+  }
+
+  .header-inner{
+    padding-inline: 14px;
+    gap: 8px;
+  }
+
+  .brand{
+    gap: 4px;
+  }
+
+  .name{
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .tag{
+    display: none;
+  }
+
+  .nav{
+    display: none;
+  }
+
+  .btn.icon{
+    padding: 6px 8px;
+  }
+}
